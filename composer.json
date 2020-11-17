@@ -1,0 +1,15 @@
+{
+    "name": "elfcorreia/routing",
+    "description": "A Routing library",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Emerson C. Lima",
+            "email": "elfcorreia@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    }
+}
