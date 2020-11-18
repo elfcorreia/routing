@@ -15,4 +15,8 @@ class InvokableCallable {
 		return $f(...$values);		
 	}
 
+	public function __toString() {
+		return 'callable object';
+	}
+
 }

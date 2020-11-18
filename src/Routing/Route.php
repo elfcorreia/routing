@@ -6,7 +6,8 @@ class Route {
 
 	private Path $path;
 	private ?string $name = null;	
-	private $handler = null;
+	private array $verbs = [];
+	private $handler = null;	
 
 	public function __construct(string $path) {
 		$this->path = new Path($path);
@@ -26,6 +27,18 @@ class Route {
  
 	public function getHandler() {
 		return $this->handler;
+	}
+
+	public function setHandler($handler) {
+		$this->handler = $handler;
+	}
+
+	public function getVerbs(): array {
+		return $this->verbs;
+	}
+
+	public function setVerbs(array $verbs) {
+		$this->verbs = $verbs;
 	}
 
 };

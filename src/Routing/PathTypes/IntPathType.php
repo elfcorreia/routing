@@ -11,5 +11,5 @@ class IntPathType extends \Routing\PathType {
 	public function clean(string $value) {
 		return filter_var($value, FILTER_VALIDATE_INT);
 	}
-
+	
 }
