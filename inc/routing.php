@@ -2,7 +2,7 @@
 
 namespace routing {
 
-	function not_implemented_handler(): void {
+	function not_implemented_yet_handler(): void {
 		echo 'Not implemented yet!';
 	}
 
@@ -17,28 +17,16 @@ namespace routing {
 	function path_type(string $name, string $regexp, $clean_fn): void {
 		\Routing\PathType::add(new \Routing\CustomTypePath($name, $regexp, $clean_fn));
 	}
-
-	// route(name, path, handler)
+	
 	// route(name, verbs, path, handler)
-	function route(string $name, $path_or_verbs, $a = null, $b = null): \Routing\Route {
+	function route(string $name, array $verbs, string $path, ?callable $callback): \Routing\Route {
 		global $_ROUTER;
-		init_if_needed();		
+		init_if_needed();
 
-		if (is_array($path_or_verbs)) {
-			if (!is_string($a)) {
-				throw new IllegalArgumentException("Expected string path but received \"".strval($a)."\"");
-			}
-			$r = new \Routing\Route($a);
-			$r->setName($name);
-			$r->setVerbs($path_or_verbs);
-			$r->setHandler(\Invokable\Invokable::create($b ? $b : 'routing\\not_implemented_handler'));
-		} else if (is_string($path_or_verbs)) {
-			$r = new \Routing\Route($path_or_verbs);
-			$r->setName($name);
-			$r->setHandler(\Invokable\Invokable::create($a ? $a : 'routing\\not_implemented_handler'));
-		} else {
-			throw IllegalArgumentException("expected array or string but received \"".strval($path_or_verbs)."\"");
-		}
+		$r = new \Routing\Route($path);
+		$r->setName($name);
+		$r->setVerbs($verbs);
+		$r->setHandler($callback ? $callback : 'routing\\not_implemented_handler');
 		$_ROUTER->add($r);
 		return $r;
 	}

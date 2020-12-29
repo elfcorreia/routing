@@ -13,9 +13,9 @@ Install with `composer require elfcorreia/routing`
 
 use function routing/route;
 
-route('index', '/', function () { echo 'oi'; });
-route('posts', '/posts', 'posts');
-route('post-detail', '/posts/{name:slug}', 'post_detail');
+route('index', [], '/', function () { echo 'oi'; });
+route('posts', [], '/posts', 'posts');
+route('post-detail', [], '/posts/{name:slug}', 'post_detail');
 
 function posts() {
     echo 'posts';
@@ -38,7 +38,7 @@ route('index', '/');
 route('posts', '/posts');
 ~~~
 
-When not especified, the `routing/not_implemented_yet_handler` its used, to specify a handler, you must pass a [callback/callable](https://www.php.net/manual/en/language.types.callable.php) variable.
+When not especified, the `routing/not_implemented_yet_handler` its used. To specify a handler, you must pass a [callback/callable](https://www.php.net/manual/en/language.types.callable.php) variable.
 ~~~php
 route('index', '/', 'index_view');
 route('posts', '/posts', function () { echo 'posts'; });
