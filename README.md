@@ -32,16 +32,18 @@ All the functions from this library are in `routing` namespace. So in order to u
 
 ### Adds a route
 
-Add a **route** calling the function `route` with a **name** and a **path**. Example:
+Add a **route** calling the function `route` with a **name**, an array of **verbs**, and a **path**. Example:
 ~~~php
-route('index', '/');
-route('posts', '/posts');
+route('index', ['GET'], '/');
+route('posts', ['GET', 'POST'], /posts');
 ~~~
 
-When not especified, the `routing/not_implemented_yet_handler` its used. To specify a handler, you must pass a [callback/callable](https://www.php.net/manual/en/language.types.callable.php) variable.
+An empty list of verbs indicates any http verbs.
+
+When not specified, the `routing/not_implemented_yet_handler` its used. To specify a handler, you must pass a [callback/callable](https://www.php.net/manual/en/language.types.callable.php) variable.
 ~~~php
-route('index', '/', 'index_view');
-route('posts', '/posts', function () { echo 'posts'; });
+route('index', ['GET'], '/', 'index_view');
+route('posts', ['GET', 'POST'], '/posts', function () { echo 'posts'; });
 
 function index_view() {
     echo 'index';
@@ -59,8 +61,8 @@ class A {
 
 use function routing/route;
 
-route('post-detail', '/posts/{id:int}', function ($id) { /* ... */ });
-route('page-detail', '/page/{page:slug}', function ($page) { /* ... */ });
+route('post-detail', [], '/posts/{id:int}', function ($id) { /* ... */ });
+route('page-detail', [], '/page/{page:slug}', function ($page) { /* ... */ });
 
 ?>
 ~~~
@@ -68,17 +70,6 @@ route('page-detail', '/page/{page:slug}', function ($page) { /* ... */ });
 A path param is specified in a path with '{name:type}', where name must be a valid PHP identifier and type should be a valid path type.
 
 ## Create a link to some route
-
-
-
-
- - `function  \rounting\route(string $name, array $verbs, string $path, $handler): \Routing\Route;
-   - `route('comments', ['GET', 'POST'], '/posts/{id:int}/comments', $handler);`
-
- - path_type(string $name, string $regexp, $clean_fn): void;    
- - find()
- - link_to()
- - function not_implemented_handler(): void
- - dump_routes()
- - dump_types()
- - debug()
+~~~php
+link_to('post', 'silva');
+~~~
