@@ -1,16 +1,26 @@
 {
     "name": "elfcorreia/routing",
-    "description": "A Routing library",
+    "description": "A routing library",
+    "keywords": ["routing", "route", "router"],
+    "homepage": "https://github.com/elfcorreia/routing",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Emerson C. Lima",
-            "email": "elfcorreia@gmail.com"
+            "email": "elfcorreia@gmail.com",
+            "homepage": "https://github.com/elfcorreia"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.1.0"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.4"
+    },
+    "support": {
+        "issues": "https://github.com/elfcorreia/routing/issues",
+        "source": "https://github.com/elfcorreia/routing"
     },
     "autoload": {
         "files": [
@@ -20,5 +30,8 @@
             "Routing\\": "src/Routing",
             "Invokable\\": "src/Invokable"
         }
+    },
+    "scripts": {
+        "test": "php vendor/bin/phpunit --testdox --color test"
     }
 }

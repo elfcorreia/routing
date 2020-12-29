@@ -2,11 +2,11 @@
 
 namespace routing {
 
-	function not_implemented_handler() {
+	function not_implemented_handler(): void {
 		echo 'Not implemented yet!';
 	}
 
-	function init_if_needed() {
+	function init_if_needed(): void {
 		global $_ROUTER;
 		if (!$_ROUTER) {
 			\Routing\PathType::add(new \Routing\PathTypes\IntPathType());
@@ -14,7 +14,7 @@ namespace routing {
 		}
 	}
 
-	function path_type(string $name, string $regexp, $clean_fn) {
+	function path_type(string $name, string $regexp, $clean_fn): void {
 		\Routing\PathType::add(new \Routing\CustomTypePath($name, $regexp, $clean_fn));
 	}
 
