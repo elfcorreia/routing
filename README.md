@@ -11,18 +11,21 @@ Install with `composer require elfcorreia/routing`
 ~~~php
 <?php
 
-use function routing/route;
+use function routing\route;
 
-route('index', [], '/', function () { echo 'oi'; });
-route('posts', [], '/posts', 'posts');
-route('post-detail', [], '/posts/{name:slug}', 'post_detail');
+route('index', [], '/');
+route('posts', [], '/posts');
+route('post-detail', [], '/posts/{name:slug}');
 
-function posts() {
-    echo 'posts';
-}
+$r = routing\find($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URL']);
 
-function post_detail($name) {
-    echo 'post_detail';
+switch($r->getCode()) {
+    case 405:
+        echo 'method not allowed!'
+    case 200:
+        call_user_func($r->getRoute()->getHandler(), $r->getParams());
+    default:
+        echo 'not found!';
 }
 ~~~
 
