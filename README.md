@@ -12,12 +12,13 @@ Install with `composer require elfcorreia/routing`
 <?php
 
 use function routing\route;
+use function routing\find;
 
 route('index', [], '/');
 route('posts', [], '/posts');
 route('post-detail', [], '/posts/{name:slug}');
 
-$r = routing\find($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URL']);
+$r = find($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URL']);
 
 switch($r->getCode()) {
     case 405:

@@ -19,14 +19,14 @@ namespace routing {
 	}
 	
 	// route(name, verbs, path, handler)
-	function route(string $name, array $verbs, string $path, ?callable $callback): \Routing\Route {
+	function route(string $name, array $verbs, string $path, ?callable $callback = null): \Routing\Route {
 		global $_ROUTER;
 		init_if_needed();
 
 		$r = new \Routing\Route($path);
 		$r->setName($name);
 		$r->setVerbs($verbs);
-		$r->setHandler($callback ? $callback : 'routing\\not_implemented_handler');
+		$r->setHandler($callback ? $callback : '\\routing\\not_implemented_handler');
 		$_ROUTER->add($r);
 		return $r;
 	}
