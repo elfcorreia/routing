@@ -19,16 +19,15 @@ class Router {
 		$this->types[$type->getName()] = $type;
 	}
 
-	public function find($verb, $url): FindResult {
-		global $_ROUTER;
-		$aux = parse_url($url);		
-		$collected_uri_args = [];
+	public function find($url): RouteResult {
+		$aux = parse_url($url);
+		$collected_url_args = [];
 		$args = [];
-		foreach ($_ROUTER->getRoutes() as $r) {						
+		foreach ($this->routes as $r) {						
 			$match = preg_match(
 				$r->getPath()->getPreg(), 
 				$aux['path'], 
-				$collected_uri_args, 
+				$collected_url_args, 
 				PREG_UNMATCHED_AS_NULL
 			);
 			$e = preg_last_error();
@@ -37,13 +36,10 @@ class Router {
 			}
 			//var_dump($match);
 			if ($match) {
-				$route = $r;
-				if (!empty($r->getVerbs()) && !in_array($verb, $r->getVerbs())) {
-					return new FindResult($r, 405);
-				}				
-				return new FindResult($r, 200);
+				return new RouteResult($r, $args);
 			}
 		}
+		return new RouteResult();
 //				// collect params, oportunity to convert from str to other php types
 //				foreach ($r['params'] as $name => $type) {
 //					if (isset($collected_uri_args[$name])) {
@@ -56,7 +52,7 @@ class Router {
 //				}
 //		}
 //		return 404;
-		return new FindResult(null, 404);
+//		return new FindResult(null, 404);
 	}
 
 	public function getRoutes() {

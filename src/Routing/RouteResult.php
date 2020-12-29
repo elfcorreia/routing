@@ -2,23 +2,18 @@
 
 namespace Routing;
 
-class FindResult {
+class RouteResult {
 	
 	public ?Route $route;
-	public int $code;
-	public array $args = [];
+	public array $args;
 
-	public function __construct(?Route $route, int $code) {
+	public function __construct(?Route $route = null, ?array $args = null) {
 		$this->route = $route;
-		$this->code = $code;
+		$this->args = $args ? $args : [];
 	}
 
 	public function getRoute() {
 		return $this->route;
-	}
-
-	public function getCode() {
-		return $this->code;
 	}
 
 	public function getArgs(): array {

@@ -15,7 +15,7 @@ class Path {
 		$this->path = $path;
 		$aux = $path;
 		$n = strlen($path);		
-		if ($n > 0 && substr($path, $n - 1, 1) == '/') {
+		if ($n > 0 && $path != '/' && substr($path, $n - 1, 1) == '/') {
 			$aux = substr($path, 0, $n - 2);
 		}
 		$aux = str_replace('/', '\\/', $aux);

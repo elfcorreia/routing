@@ -10,6 +10,7 @@ namespace routing {
 		global $_ROUTER;
 		if (!$_ROUTER) {
 			\Routing\PathType::add(new \Routing\PathTypes\IntPathType());
+			\Routing\PathType::add(new \Routing\PathTypes\StringPathType());
 			$_ROUTER = new \Routing\Router();			
 		}
 	}
@@ -17,25 +18,21 @@ namespace routing {
 	function path_type(string $name, string $regexp, $clean_fn): void {
 		\Routing\PathType::add(new \Routing\CustomTypePath($name, $regexp, $clean_fn));
 	}
-	
-	// route(name, verbs, path, handler)
-	function route(string $name, array $verbs, string $path, ?callable $callback = null): \Routing\Route {
+
+	function route(string $path, ?callable $callback = null, ?string $name = null): \Routing\Route {
 		global $_ROUTER;
 		init_if_needed();
-
-		$r = new \Routing\Route($path);
-		$r->setName($name);
-		$r->setVerbs($verbs);
-		$r->setHandler($callback ? $callback : '\\routing\\not_implemented_handler');
+		$name = $name ? $name : 'untitled'.count($_ROUTER->getRoutes());
+		$callback = $callback ? $callback : '\\routing\\not_implemented_yet_handler';
+		$r = new \Routing\Route($path, $callback, $name);
 		$_ROUTER->add($r);
 		return $r;
 	}
 
-	function find(string $verb, string $uri): \Routing\FindResult {
+	function find(string $uri): \Routing\RouteResult {
 		global $_ROUTER;
 		init_if_needed();
-
-		return $_ROUTER->find($verb, $uri);
+		return $_ROUTER->find($uri);
 	}
 
 	function link($to, ...$values) {
@@ -44,13 +41,25 @@ namespace routing {
 		return $_ROUTER->getRouteByName($to)->getPath();
 	}
 
-	function dump_routes() {
+	function debug() {
 		global $_ROUTER;
 		init_if_needed();
 
+		echo '<p><b>find("'.$_SERVER['REQUEST_URI'].'")</b></p>';
+		$r = find($_SERVER['REQUEST_URI']);
+		echo '<pre>';
+		echo 'Route: '.$r->getRoute()."\n";
+		if ($r->getRoute()) {
+			echo 'Callback: '.$r->getRoute()->getCallback()."\n";
+			echo 'Args: '.json_encode($r->getArgs())."\n";
+		}
+		echo '</pre>';
+
+		echo '<hr/>';
+		echo '<h3>Routes</h3>';
+
 		foreach ($_ROUTER->getRoutes() as $r) {
 			echo '<p>';
-			echo '<b>'.(empty($r->getVerbs()) ? 'ANY' : implode('|', $r->getVerbs())).'</b> ';
 			echo $r->getPath()->getPath();
 			echo '<br/><small>name: <i>'.$r->getName().'</i></small>';			
 			echo '<pre>';
@@ -59,13 +68,12 @@ namespace routing {
 			foreach ($r->getPath()->getParams() as $k => $v) {
 				echo "   - $k: ".get_class($v)."\n";
 			}
-			echo "handler: ".$r->getHandler()."\n";
+			echo "callback: ".$r->getCallback()."\n";
 			echo '</pre>';
 			echo '</p>';
 		}		
-	}
+		echo '<hr/>';
 
-	function dump_types() {
 		echo '<h3>Types</h3>';
 		echo '<table border="1">';
 		echo '<tbody>';
@@ -77,19 +85,5 @@ namespace routing {
 		}
 		echo '</tbody>';
 		echo '</table>';
-		echo '<h3>Routes</h3>';
-		echo '<hr>';
-	}
-
-	function debug() {
-		global $_ROUTER;
-		init_if_needed();
-		echo '<p><b>find("'.$_SERVER['REQUEST_METHOD'].'", "'.$_SERVER['REQUEST_URI'].'")</b></p>';
-		$r = find($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
-		echo '<pre>';
-		echo 'Code: '.$r->getCode()."\n";
-		echo 'Handler: '.$r->getRoute()->getHandler()."\n";
-		echo 'Args: '.json_encode($r->getArgs())."\n";
-		echo '</pre>';		
 	}
 }
