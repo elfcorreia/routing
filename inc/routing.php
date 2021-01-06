@@ -16,7 +16,7 @@ namespace routing {
 	}
 
 	function path_type(string $name, string $regexp, $clean_fn): void {
-		\Routing\PathType::add(new \Routing\CustomTypePath($name, $regexp, $clean_fn));
+		\Routing\PathType::add(new \Routing\PathTypes\CustomTypePath($name, $regexp, $clean_fn));
 	}
 
 	function route(string $path, ?callable $callback = null, ?string $name = null): \Routing\Route {
