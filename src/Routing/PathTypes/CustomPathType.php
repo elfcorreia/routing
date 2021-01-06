@@ -6,7 +6,7 @@ class CustomPathType extends \Routing\PathType {
 	
 	private $callback = null;
 
-	public function __construct(string $name, string $regexp, callable $callback) {
+	public function __construct(string $name, string $regexp, ?callable $callback = null) {
 		parent::__construct($name, $regexp);
 		$this->callback = $callback;
 	}
