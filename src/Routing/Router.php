@@ -46,6 +46,7 @@ class Router {
 				return $result;
 			}
 		}
+		return new RouteResult();
 	}
 
 	public function getRoutes() {
