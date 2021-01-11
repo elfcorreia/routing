@@ -11,6 +11,7 @@ namespace routing {
 		if (!$_ROUTER) {
 			\Routing\PathType::add(new \Routing\PathTypes\IntPathType());
 			\Routing\PathType::add(new \Routing\PathTypes\StringPathType());
+			\Routing\PathType::add(new \Routing\PathTypes\PathPathType());
 			$_ROUTER = new \Routing\Router();			
 		}
 	}

@@ -36,23 +36,16 @@ class Router {
 			}
 			//var_dump($match);
 			if ($match) {
-				return new RouteResult($r, $args);
+				$result = new RouteResult($r, $args);
+
+				foreach ($r->getPath()->getParams() as $name => $path_type) {
+					if (isset($collected_url_args[$name])) {						
+						$result->args[$name] = $path_type->clean($collected_url_args[$name]);
+					}
+				}
+				return $result;
 			}
 		}
-		return new RouteResult();
-//				// collect params, oportunity to convert from str to other php types
-//				foreach ($r['params'] as $name => $type) {
-//					if (isset($collected_uri_args[$name])) {
-//						$type = $r['params'][$name];
-//						$clean_fn = $_ROUTER['TYPES'][$type]['clean'];
-//						$args[$name] = $clean_fn($collected_uri_args[$name]);
-//					}				 
-//				}
-//				return 200;
-//				}
-//		}
-//		return 404;
-//		return new FindResult(null, 404);
 	}
 
 	public function getRoutes() {
