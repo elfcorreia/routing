@@ -20,12 +20,11 @@ namespace routing {
 		\Routing\PathType::add(new \Routing\PathTypes\CustomPathType($name, $regexp, $callback));
 	}
 
-	function route(string $path, ?callable $callback = null, ?string $name = null): \Routing\Route {
+	function route(string $path, ?array $userdata = null, ?string $name = null): \Routing\Route {
 		global $_ROUTER;
 		init_if_needed();
 		$name = $name ? $name : 'untitled'.count($_ROUTER->getRoutes());
-		$callback = $callback ? $callback : '\\routing\\not_implemented_yet_handler';
-		$r = new \Routing\Route($path, $callback, $name);
+		$r = new \Routing\Route($path, $userdata, $name);
 		$_ROUTER->add($r);
 		return $r;
 	}
@@ -51,7 +50,7 @@ namespace routing {
 		echo '<pre>';
 		echo 'Route: '.$r->getRoute()."\n";
 		if ($r->getRoute()) {
-			echo 'Callback: '.$r->getRoute()->getCallback()."\n";
+			echo 'Userdata: '.$r->getRoute()->getUserdata()."\n";
 			echo 'Args: '.json_encode($r->getArgs())."\n";
 		}
 		echo '</pre>';
@@ -69,7 +68,7 @@ namespace routing {
 			foreach ($r->getPath()->getParams() as $k => $v) {
 				echo "   - $k: ".get_class($v)."\n";
 			}
-			echo "callback: ".$r->getCallback()."\n";
+			echo "Userdata: ".$r->getUserdata()."\n";
 			echo '</pre>';
 			echo '</p>';
 		}		

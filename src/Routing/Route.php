@@ -6,11 +6,11 @@ class Route {
 
 	private Path $path;
 	private ?string $name = null;
-	private $callback = null;
+	private ?array $userdata = null;
 
-	public function __construct(string $path, ?callable $callback = null, ?string $name = null) {
+	public function __construct(string $path, ?array $userdata = null, ?string $name = null) {
 		$this->path = new Path($path);
-		$this->callback = $callback;
+		$this->userdata = $userdata;
 		$this->name = $name;
 	}
 
@@ -22,8 +22,8 @@ class Route {
 		return $this->path;
 	}
  
-	public function getCallback(): ?callable {
-		return $this->callback;
+	public function getUserdata(): ?callable {
+		return $this->userdata;
 	}
 
 	public function __toString() {
