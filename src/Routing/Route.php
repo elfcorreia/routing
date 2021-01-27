@@ -22,7 +22,7 @@ class Route {
 		return $this->path;
 	}
  
-	public function getUserdata(): ?callable {
+	public function getUserdata(): ?array {
 		return $this->userdata;
 	}
 
