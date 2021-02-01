@@ -20,7 +20,7 @@ namespace routing {
 		\Routing\PathType::add(new \Routing\PathTypes\CustomPathType($name, $regexp, $callback));
 	}
 
-	function route(string $path, ?array $userdata = null, ?string $name = null): \Routing\Route {
+	function route(string $path, $userdata = null, ?string $name = null): \Routing\Route {
 		global $_ROUTER;
 		init_if_needed();
 		$name = $name ? $name : 'untitled'.count($_ROUTER->getRoutes());

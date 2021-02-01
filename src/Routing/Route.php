@@ -6,9 +6,9 @@ class Route {
 
 	private Path $path;
 	private ?string $name = null;
-	private ?array $userdata = null;
+	private $userdata = null;
 
-	public function __construct(string $path, ?array $userdata = null, ?string $name = null) {
+	public function __construct(string $path, $userdata = null, ?string $name = null) {
 		$this->path = new Path($path);
 		$this->userdata = $userdata;
 		$this->name = $name;
@@ -22,7 +22,7 @@ class Route {
 		return $this->path;
 	}
  
-	public function getUserdata(): ?array {
+	public function getUserdata() {
 		return $this->userdata;
 	}
 
